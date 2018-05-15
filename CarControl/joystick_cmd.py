@@ -31,11 +31,14 @@ class Joystick:
     def send(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_address = ('172.24.1.1', 1080)
-        sock.connect(server_address)
         try:
+            sock.connect(server_address)
             message = '{}/{}/{}'.format(self.state, self.speed, self.angle)
             print(message)
             sock.sendall(message.encode())
+        except OSError:
+            print('Car not found')
+            exit(1)
         finally:
             print('closing socket')
             sock.close()
