@@ -3,6 +3,7 @@ import argparse
 import time
 import os
 
+n = 1
 def setup_gpio():
     os.system("sudo pigpiod")  # Launching GPIO library
     time.sleep(1)  # As i said it is too impatient and so if this delay is removed you will get an error
@@ -29,12 +30,14 @@ def setup_socket(port):
 
 
 def get_parameters(sock):
+    global n
     # Wait for a connection
-    print('waiting for a connection')
+    # print('waiting for a connection')
     connection, client_address = sock.accept()
     try:
-        data = connection.recv(32)
+        data = connection.recv(20)
         speed, angle, stop_key = convert_to_signals(data)
+        n += 1
         return speed, angle, stop_key, connection
     except ConnectionError:
         print("connection is empty")
@@ -125,7 +128,7 @@ def main():
 
         speed, angle, stop_key, connection = get_parameters(sock)
         set_to_units(speed, angle)
-        print(speed, angle)
+        print(n, time.time(), speed, angle)
 
         control(pi, ESC, speed, STEER, angle)
         if stop_key!=0:

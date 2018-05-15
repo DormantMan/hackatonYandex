@@ -278,7 +278,7 @@ while running:
                 key_left = True
             elif event.key == pygame.K_d:
                 key_righ = True
-            elif event.key == pygame.K_r:
+            elif event.key == pygame.K_SPACE:
                 btn_reset.click = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
@@ -313,7 +313,7 @@ while running:
         if not DEBUG:
             joystick.right()
     else:
-        print('NO CLICK - CENTER')
+        #print('NO CLICK - CENTER')
         if not DEBUG:
             joystick.center()
 
@@ -324,7 +324,6 @@ while running:
 
     gui.render(screen)
     pygame.display.flip()
-    clock.tick(30)
 
 if not DEBUG:
     joystick.stop()
