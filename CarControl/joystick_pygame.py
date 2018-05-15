@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from joystick_cmd import Joystick
 
 pygame.init()
@@ -240,7 +240,7 @@ DEBUG = False
 
 if not DEBUG:
     joystick = Joystick()
-WIDTH, HEIGHT = 720, 720
+WIDTH, HEIGHT = 720, 500
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RC CAR')
 
@@ -252,13 +252,17 @@ btn_left = Button((160, 360, 40, 30), '')
 btn_righ = Button((220, 360, 40, 30), '')
 btn_reset = Button((430, 350, 50, 50), '')
 
+lbl_speed = Label((10, 10, 100, 50), '', text_color='black', background_color='-1')
+lbl_angle = Label((10, 60, 100, 50), '', text_color='black', background_color='-1')
+
 key_upup = False
 key_down = False
 key_left = False
 key_righ = False
 
 gui = GUI()
-gui.add_elements(btn_upup, btn_down, btn_left, btn_righ, btn_reset)
+gui.add_elements(btn_upup, btn_down, btn_left, btn_righ, btn_reset,
+                 lbl_speed, lbl_angle)
 
 clock = pygame.time.Clock()
 running = True
@@ -278,7 +282,7 @@ while running:
                 key_left = True
             elif event.key == pygame.K_d:
                 key_righ = True
-            elif event.key == pygame.K_r:
+            elif event.key == pygame.K_SPACE:
                 btn_reset.click = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
@@ -322,9 +326,14 @@ while running:
         if not DEBUG:
             joystick.reset()
 
+    if not DEBUG:
+        lbl_speed.text = 'Speed ' + str(joystick.speed)
+        lbl_angle.text = 'Angle ' + str(joystick.angle)
+    else:
+        lbl_speed.text = 'Speed ' + str(random.randint(1200, 1400))
+        lbl_angle.text = 'Angle ' + str(random.randint(60, 90))
     gui.render(screen)
     pygame.display.flip()
-    clock.tick(30)
 
 if not DEBUG:
     joystick.stop()
