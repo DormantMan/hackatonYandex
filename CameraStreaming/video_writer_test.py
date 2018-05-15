@@ -6,14 +6,16 @@ import CameraStreaming.traffic_sign_recognition as tsr
 import socket
 import pickle
 
-cap = cv.VideoCapture(4)
+cap = cv.VideoCapture(1)
+
+size = 100, 100
 
 fourcc = cv.VideoWriter_fourcc(*'XVID')
 out = cv.VideoWriter('output.avi', fourcc, 30.0, (640,480))
 
 # Преобразуем примеры знаков к стандартному размеру и читаем из папки одновременно
-pedistrain = cv.resize(cv.imread("pedistrain.png"), (64, 64))
-no_drive = cv.resize(cv.imread("noDrive.png"), (64, 64))
+pedistrain = cv.resize(cv.imread("img/pedestrain.png"), size)
+no_drive = cv.resize(cv.imread("img/noDrive.png"), size)
 
 # Собираем массив из примеров изображений знаков
 examples_arr = [pedistrain, no_drive]

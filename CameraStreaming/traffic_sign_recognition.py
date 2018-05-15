@@ -86,8 +86,8 @@ def tsr_detection(frame):
 def main():
 
     # Преобразуем примеры знаков к стандартному размеру и читаем из папки одновременно
-    pedistrain = cv.resize(cv.imread("pedistrain.png"), (64, 64))
-    no_drive = cv.resize(cv.imread("noDrive.png"), (64, 64))
+    pedistrain = cv.resize(cv.imread("img/pedestrain.png"), (64, 64))
+    no_drive = cv.resize(cv.imread("img/noDrive.png"), (64, 64))
 
     # Собираем массив из примеров изображений знаков
     examples_arr = [pedistrain,no_drive]
@@ -103,7 +103,7 @@ def main():
         7: [0, 0, 0, 0, 0, 0, 0, 1]
     }
     # Читаем видеопоток из камеры
-    cap = cv.VideoCapture(0)
+    cap = cv.VideoCapture(1)
     while (True):
         ret, frame = cap.read()
 
