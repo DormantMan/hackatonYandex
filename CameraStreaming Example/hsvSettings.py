@@ -43,8 +43,6 @@ while(1):
 
     result = cv.bitwise_and(frame,frame,mask = mask)
 
-
-
     cv.imshow('result',result)
 
     k = cv.waitKey(5) & 0xFF
