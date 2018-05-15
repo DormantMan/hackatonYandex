@@ -56,7 +56,7 @@ def percentage(image, lower, upper, stop, text):
 
             if res > stop:
                 print(res, text)
-                cv.putText(frame, text, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
+                cv.putText(image, text, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
                 out.write(frame)
                 return True
 
