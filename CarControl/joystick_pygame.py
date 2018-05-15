@@ -14,7 +14,7 @@ class Label:
             self.bgcolor = None
         self.font_color = pygame.Color(text_color)
         # Рассчитываем размер шрифта в зависимости от высоты
-        self.font = pygame.font.Font(None, self.rect.height - 4)
+        self.font = pygame.font.Font(None, self.rect.height - 16)
         self.rendered_text = None
         self.rendered_rect = None
 
@@ -236,8 +236,10 @@ class GUI:
                     ui_hovered = True
         return ui_hovered
 
+DEBUG = False
 
-joystick = Joystick()
+if not DEBUG:
+    joystick = Joystick()
 WIDTH, HEIGHT = 720, 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('RC CAR')
@@ -248,9 +250,15 @@ btn_upup = Button((190, 330, 40, 30), '')
 btn_down = Button((190, 390, 40, 30), '')
 btn_left = Button((160, 360, 40, 30), '')
 btn_righ = Button((220, 360, 40, 30), '')
+btn_reset = Button((430, 350, 50, 50), '')
+
+key_upup = False
+key_down = False
+key_left = False
+key_righ = False
 
 gui = GUI()
-gui.add_elements(btn_upup, btn_down, btn_left, btn_righ)
+gui.add_elements(btn_upup, btn_down, btn_left, btn_righ, btn_reset)
 
 clock = pygame.time.Clock()
 running = True
@@ -263,38 +271,61 @@ while running:
             pass
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
-                btn_upup.click = True
+                key_upup = True
             elif event.key == pygame.K_s:
-                btn_down.click = True
+                key_down = True
             elif event.key == pygame.K_a:
-                btn_left.click = True
+                key_left = True
             elif event.key == pygame.K_d:
-                btn_righ.click = True
+                key_righ = True
+            elif event.key == pygame.K_r:
+                btn_reset.click = True
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_w:
+                key_upup = False
+            elif event.key == pygame.K_s:
+                key_down = False
+            elif event.key == pygame.K_a:
+                key_left = False
+            elif event.key == pygame.K_d:
+                key_righ = False
 
     screen.blit(bckg, (0, 0))
 
-    joystick.send()
+    if not DEBUG:
+        joystick.send()
     gui.update()
 
-    if btn_upup.click:
+    if btn_upup.pressed or key_upup:
         print('UP CLICK')
-        joystick.inc_speed()
-        btn_upup.click = False
-    elif btn_down.click:
+        if not DEBUG:
+            joystick.inc_speed()
+    elif btn_down.pressed or key_down:
         print('DOWN CLICK')
-        joystick.dec_speed()
-        btn_down.click = False
-    if btn_left.click:
+        if not DEBUG:
+            joystick.dec_speed()
+    if btn_left.pressed or key_left:
         print('LEFT CLICK')
-        joystick.left()
-        btn_left.click = False
-    elif btn_righ.click:
+        if not DEBUG:
+            joystick.left()
+    elif btn_righ.pressed or key_righ:
         print('RIGHT CLICK')
-        joystick.right()
-        btn_righ.click = False
+        if not DEBUG:
+            joystick.right()
+    else:
+        print('NO CLICK - CENTER')
+        if not DEBUG:
+            joystick.center()
+
+    if btn_reset.click:
+        print('RESET')
+        if not DEBUG:
+            joystick.reset()
 
     gui.render(screen)
     pygame.display.flip()
     clock.tick(30)
 
+if not DEBUG:
+    joystick.stop()
 pygame.quit()
