@@ -312,6 +312,10 @@ while running:
         print('RIGHT CLICK')
         if not DEBUG:
             joystick.right()
+    else:
+        print('NO CLICK - CENTER')
+        if not DEBUG:
+            joystick.center()
 
     if btn_reset.click:
         print('RESET')

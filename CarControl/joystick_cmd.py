@@ -27,6 +27,9 @@ class Joystick:
         self.angle = 90
         self.speed = 1500
 
+    def center(self):
+        self.angle = 90
+
     def stop(self):
         self.angle = 90
         self.speed = 1500
