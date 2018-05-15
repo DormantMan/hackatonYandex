@@ -14,7 +14,7 @@ class Label:
             self.bgcolor = None
         self.font_color = pygame.Color(text_color)
         # Рассчитываем размер шрифта в зависимости от высоты
-        self.font = pygame.font.Font(None, self.rect.height - 4)
+        self.font = pygame.font.Font(None, self.rect.height - 16)
         self.rendered_text = None
         self.rendered_rect = None
 
@@ -250,7 +250,7 @@ btn_upup = Button((190, 330, 40, 30), '')
 btn_down = Button((190, 390, 40, 30), '')
 btn_left = Button((160, 360, 40, 30), '')
 btn_righ = Button((220, 360, 40, 30), '')
-btn_reset = Button((10, 10, 120, 60), 'RESET')
+btn_reset = Button((430, 350, 50, 50), '')
 
 key_upup = False
 key_down = False
@@ -278,6 +278,8 @@ while running:
                 key_left = True
             elif event.key == pygame.K_d:
                 key_righ = True
+            elif event.key == pygame.K_r:
+                btn_reset.click = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
                 key_upup = False
