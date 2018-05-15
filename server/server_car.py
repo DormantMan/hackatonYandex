@@ -3,6 +3,7 @@ import argparse
 import time
 import os
 
+
 def setup_gpio():
     os.system("sudo pigpiod")  # Launching GPIO library
     time.sleep(1)  # As i said it is too impatient and so if this delay is removed you will get an error
@@ -16,7 +17,8 @@ def setup_gpio():
     # pi.set_servo_pulsewidth(ESC, 1500)
     # time.sleep(1)
 
-    return pi,ESC,STEER
+    return pi, ESC, STEER
+
 
 def setup_socket(port):
     # Create a TCP/IP socket
@@ -52,11 +54,11 @@ def convert_to_signals(data):
     return speed, angle
 
 
-def set_to_units(speed,angle):
-
+def set_to_units(speed, angle):
     pass
 
-def calibrate(pi,ESC):   # Стандартная процедура автокалибровки для esc регулятора
+
+def calibrate(pi, ESC):  # Стандартная процедура автокалибровки для esc регулятора
     max_value = 2000  # Максимальное значение шим
     min_value = 700  # Минимальное значение шим
     pi.set_servo_pulsewidth(ESC, 0)
@@ -64,31 +66,35 @@ def calibrate(pi,ESC):   # Стандартная процедура авток�
     inp = input()
     if inp == '':
         pi.set_servo_pulsewidth(ESC, max_value)
-        print("Подключите батарею прямо сейчас. Вы должны услышать 2 звуквых сигнала. Затем дождитесь окончания сигнала и нажмите Enter")
+        print(
+            "Подключите батарею прямо сейчас. Вы должны услышать 2 звуквых сигнала. Затем дождитесь окончания сигнала и нажмите Enter")
         inp = input()
         if inp == '':
             pi.set_servo_pulsewidth(ESC, min_value)
-            print ("Специальный сигнал скоро будет")
+            print("Специальный сигнал скоро будет")
             time.sleep(7)
-            print ("Ждите ....")
-            time.sleep (5)
-            print ("Не беспокойтесь, просто ждите.....")
+            print("Ждите ....")
+            time.sleep(5)
+            print("Не беспокойтесь, просто ждите.....")
             pi.set_servo_pulsewidth(ESC, 0)
             time.sleep(2)
-            print ("Остановите ESC сейчас...")
+            print("Остановите ESC сейчас...")
             pi.set_servo_pulsewidth(ESC, min_value)
             time.sleep(1)
-            print ("Калибровка завершена")
+            print("Калибровка завершена")
             # control() # You can change this to any other function you want
             pi.set_servo_pulsewidth(ESC, 1500)
 
-def control(pi,ESC,speed,STEER,angle):
-    pi.set_servo_pulsewidth(ESC, speed)
-    pi.set_servo_pulsewidth(STEER,int(16.6666666*angle))
 
-def stop(pi,ESC): #This will stop every action your Pi is performing for ESC ofcourse.
+def control(pi, ESC, speed, STEER, angle):
+    pi.set_servo_pulsewidth(ESC, speed)
+    pi.set_servo_pulsewidth(STEER, int(16.6666666 * angle))
+
+
+def stop(pi, ESC):  # This will stop every action your Pi is performing for ESC ofcourse.
     pi.set_servo_pulsewidth(ESC, 0)
     pi.stop()
+
 
 def main():
     # Ввод порта для передачи данных и флага калибровка. По умполчанию порт 1080, калибровка отключена
@@ -114,18 +120,17 @@ def main():
 
     pi, ESC, STEER = setup_gpio()
     if args["calibrate"] is not None:
-        if int(args["calibrate"])==1:
-            calibrate(pi,ESC)
-        if int(args["calibrate"])==0:
+        if int(args["calibrate"]) == 1:
+            calibrate(pi, ESC)
+        if int(args["calibrate"]) == 0:
             pass
 
     while True:
-
         speed, angle = get_parameters(sock)
-        set_to_units(speed,angle)
+        set_to_units(speed, angle)
         print(speed, angle)
 
-        control(pi, ESC, speed,STEER, angle)
+        control(pi, ESC, speed, STEER, angle)
         pass
 
 
