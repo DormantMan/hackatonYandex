@@ -313,7 +313,7 @@ while running:
         if not DEBUG:
             joystick.left()
     elif btn_righ.pressed or key_righ:
-        print('RIGHT CLICK')
+        print('RIGHT CLIwwdww CK')
         if not DEBUG:
             joystick.right()
     else:

@@ -3,7 +3,7 @@ import os
 import cv2 as cv
 import numpy as np
 
-cap = cv.VideoCapture(1)
+cap = cv.VideoCapture(0)
 
 MIN_REC = 2400
 
@@ -56,20 +56,14 @@ def percentage(image, lower, upper, stop, text):
 
             if res > stop:
                 print(res, text)
+                cv.putText(frame, text, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
                 return True
 
     cv.imshow('frame', frame)
 
     return False
 
-
-while True:
-    ret, frame = cap.read()
-    hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-
-    hsv = cv.blur(hsv, (5, 5))
-
-    images = {
+images = {
         'noDrive.png': [np.array([0, 110, 0]), np.array([15, 255, 255]), MIN_REC, 'Езда запрещена'],
         'mainRoad.png': [np.array([10, 130, 120]), np.array([60, 255, 255]), MIN_REC, 'Главная дорога'],
         'entryStop.png': [np.array([0, 110, 0]), np.array([15, 255, 255]), MIN_REC, 'Въезд запрещен'],
@@ -81,7 +75,13 @@ while True:
         'roadWorks.png': [np.array([10, 130, 120]), np.array([60, 255, 255]), MIN_REC, 'Дорожные работы'],
         'speedBump.png': [np.array([0, 110, 0]), np.array([15, 255, 255]), MIN_REC, 'Лежачий полицейский'],
         'stopSign.png': [np.array([0, 110, 0]), np.array([15, 255, 255]), MIN_REC, 'Знак остановки'],
-    }
+}
+
+while True:
+    ret, frame = cap.read()
+    hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+
+    hsv = cv.blur(hsv, (5, 5))
 
     for name, data in images.items():
         lower, upper, stop, text = data

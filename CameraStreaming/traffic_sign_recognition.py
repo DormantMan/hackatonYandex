@@ -103,7 +103,7 @@ def main():
         7: [0, 0, 0, 0, 0, 0, 0, 1]
     }
     # Читаем видеопоток из камеры
-    cap = cv.VideoCapture(1)
+    cap = cv.VideoCapture(0)
     while (True):
         ret, frame = cap.read()
 

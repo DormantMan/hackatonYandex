@@ -6,7 +6,7 @@ import CameraStreaming.traffic_sign_recognition as tsr
 import socket
 import pickle
 
-cap = cv.VideoCapture(1)
+cap = cv.VideoCapture(0)
 
 size = 100, 100
 
