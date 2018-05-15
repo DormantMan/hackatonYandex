@@ -6,6 +6,7 @@ class Joystick:
         self.state = '00'
         self.speed = 1500
         self.angle = 90
+        self.send()
 
     def inc_speed(self):
         if self.speed != 1200:
@@ -30,7 +31,7 @@ class Joystick:
     def stop(self):
         self.angle = 90
         self.speed = 1500
-        self.state = '00'
+        self.state = '11'
 
     def send(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,5 +47,5 @@ class Joystick:
         finally:
             print('closing socket')
             sock.close()
-            if self.state == '00':
+            if self.state == '11':
                 exit(0)
