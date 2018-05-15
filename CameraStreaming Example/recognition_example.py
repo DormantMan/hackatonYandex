@@ -57,12 +57,16 @@ def percentage(image, lower, upper, stop, text):
             if res > stop:
                 print(res, text)
                 cv.putText(frame, text, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
+                out.write(frame)
                 return True
 
     cv.imshow('frame', frame)
 
     return False
 
+
+fourcc = cv.VideoWriter_fourcc(*'XVID')
+out = cv.VideoWriter('output.avi', fourcc, 30.0, (640, 480))
 images = {
         'noDrive.png': [np.array([0, 110, 0]), np.array([15, 255, 255]), MIN_REC, 'Езда запрещена'],
         'mainRoad.png': [np.array([10, 130, 120]), np.array([60, 255, 255]), MIN_REC, 'Главная дорога'],
