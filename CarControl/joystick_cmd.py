@@ -16,12 +16,16 @@ class Joystick:
             self.speed += 10
 
     def left(self):
+        if self.angle != 110:
+            self.angle += 5
+
+    def right(self):
         if self.angle != 70:
             self.angle -= 5
 
-    def right(self):
-        if self.angle != 110:
-            self.angle += 5
+    def reset(self):
+        self.angle = 90
+        self.speed = 1500
 
     def stop(self):
         self.angle = 90
