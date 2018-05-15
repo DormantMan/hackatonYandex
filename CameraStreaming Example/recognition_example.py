@@ -1,4 +1,5 @@
 import os
+from random import shuffle as s
 
 import cv2 as cv
 import numpy as np
@@ -55,9 +56,11 @@ def percentage(image, lower, upper, stop, text):
                         res += 1
 
             if res > stop:
-                cv.putText(frame, image, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
-                out.write(frame)
-                cv.imshow('frame', frame)
+
+                #cv.imshow('frame', frame)
+
+                #cv.imshow('frame', frame)
+
                 return True
     return False
 
@@ -83,10 +86,17 @@ while True:
     hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
 
     hsv = cv.blur(hsv, (5, 5))
-
-    for name, data in images.items():
-        lower, upper, stop, text = data
+    list_IMAGE = list(images.keys())
+    correct = []
+    s(list_IMAGE)
+    for name in list_IMAGE:
+        lower, upper, stop, text = images[name]
         flag = percentage(name, lower, upper, stop, text)
+        if flag:
+            correct.append(name)
+    if correct:
+        cv.putText(frame, correct[-1], (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
+    out.write(frame)
 
     if cv.waitKey(1) & 0xFF == ord('q'):
         break
