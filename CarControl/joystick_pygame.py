@@ -317,7 +317,7 @@ while running:
         if not DEBUG:
             joystick.right()
     else:
-        print('NO CLICK - CENTER')
+        #print('NO CLICK - CENTER')
         if not DEBUG:
             joystick.center()
 
